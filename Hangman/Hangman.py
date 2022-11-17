@@ -49,15 +49,15 @@ class Hangman:
         print(self.spots)
 
 #TO DO: 
-t = Hangman(8,'Orange') 
+g = Hangman(8,'Orange') 
 
-while t.playing:
-    t.getGuess()
-    t.checkGuess()
-    t.liveOrDie()
-    t.display_state()
-    t.check_win()
-    t.check_loss()
+while g.playing:
+    g.getGuess()
+    g.checkGuess()
+    g.liveOrDie()
+    g.display_state()
+    g.check_win()
+    g.check_loss()
 
     
     
