@@ -1,7 +1,14 @@
-import tkinterTEST
+import random as rand 
+import  csv 
+# TODO : Faire une liste de mots random a selectionner pour le 
+class Word:
+    def __init__(self):
+        spamReader = csv.reader(open('Hangman_wordbank.csv', 'r'))
+        data = sum([i for i in spamReader],[])
+        self.chosenWord = (rand.choice(data)).strip()        
 class Hangman:
     
-    def __init__(self, lives:int, word:str):
+    def __init__(self, lives:int, word):
     
         self.lives = lives
         self.word = word.upper()
@@ -39,8 +46,9 @@ class Hangman:
     def check_loss(self):
         if self.lives <= 0:
             print("you are dead, terminate the game")
+            print(self.word)
             self.playing = False
-        
+
     def check_win(self):
         if '_' not in self.spots:
             print('you won!')
@@ -49,15 +57,8 @@ class Hangman:
     def display_state(self):
         print(self.spots)
 
-
-
-
-
-
-
-g = Hangman(8,'Orange') 
-
-
+w = Word()
+g = Hangman(8,w.chosenWord) 
 
 while g.playing:
     g.getGuess()
@@ -66,6 +67,3 @@ while g.playing:
     g.display_state()
     g.check_win()
     g.check_loss()
-
-    
-    
