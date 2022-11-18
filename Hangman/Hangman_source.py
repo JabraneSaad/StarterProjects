@@ -1,3 +1,4 @@
+import tkinterTEST
 class Hangman:
     
     def __init__(self, lives:int, word:str):
@@ -48,8 +49,15 @@ class Hangman:
     def display_state(self):
         print(self.spots)
 
-#TO DO: 
+
+
+
+
+
+
 g = Hangman(8,'Orange') 
+
+
 
 while g.playing:
     g.getGuess()
