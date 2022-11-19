@@ -60,5 +60,6 @@ class Hangman:
     def display_state(self):
         print(self.spots)
 
+
 w = Word()
 g = Hangman(8,w.chosenWord) 

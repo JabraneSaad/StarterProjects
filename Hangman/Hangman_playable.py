@@ -1,5 +1,6 @@
 from Hangman_source import *
 
+
 while g.playing:
     g.greet()
     g.getGuess()
@@ -7,3 +8,4 @@ while g.playing:
     g.liveOrDie()
     g.check_win()
     g.check_loss()
+
