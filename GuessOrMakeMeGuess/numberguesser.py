@@ -1,7 +1,7 @@
 import random as rand
 
-#TODO : while loop to make sure guess is a number
-#TODO : while
+#TODO : change the method of choise of mode (not a match case)
+#TODO : implement the levels of dificulty through lives 
 
 class Computer:
     
@@ -16,14 +16,22 @@ class Computer:
         self.num_tries = 0
         self.guessing = True 
         self.lives = lives
+        self.mode = None
+        self.level = None
     
-    def greet():
-        mode = None
-        while mode != "guesser" and mode != "riddler":
-            mode = input('>>>\n Hello! This is a small game named GuessOrMakeMeGuess, choose the mode you want to play: <Riddler> if you want to guess a random number, <Guesser> if you want to make me guess a number! :').strip()
-        return mode.lower()
-        
+    #greet , get game mode , get difficulty level
+    def greet(self):
 
+        self.mode = (input('>>>\nHello there! This is a small game named GuessOrMakeMeGuess,\n choose the mode you want to play: <Riddler> if you want to guess a random number, <Guesser> if you want to make me guess a number! :').strip()).lower()
+        while self.mode not in ['riddler','guesser']:
+            self.mode = (input('>>>\nPlease choose one of the given options (Riddler/Guesser) :').strip()).lower()
+        self.level = (input('\nSelect the level of difficulty (easy/normal/hard):').strip()).lower()
+        while self.level not in ['easy','normal','hard']:
+            self.level = input('\nPlease enter one of the given options (easy/normal/hard): ')
+        if self.mode == "riddler":
+            print(f"\nYou chose the {(self.mode).title()} {self.level} Mode, you have {self.lives} lives.\n")
+        else:
+             print(f"\nYou chose the {(self.mode).title()} Mode, I am always up for a challenge .\n")
 class Riddler(Computer):
     def __init__(self):
         super().__init__()
@@ -31,26 +39,29 @@ class Riddler(Computer):
         self.low = rand.randint(0,20)
         self.high = rand.randint(self.low+1,50)
         self.answer = rand.randint(self.low,self.high)
-        #self.lives = lives
-        print(f"You chose the Riddler Mode, you have {self.lives}")
 
     def get_guessNumber(self):
-        print(f"You now have {self.lives} lives.")
-        self.guess = int(input(f"guess a numbfer between {self.low} and {self.high}: "))
+        self.guess = input(f"\nGuess a numbfer between {self.low} and {self.high}: ")
+        while not self.guess.isnumeric():
+            self.guess = input("\nPlease enter a proper number")
+        self.guess = int(self.guess)
         self.num_tries +=1
 
     def assert_gess(self):
         if self.guess > self.answer : 
             self.gs_state =  'lower'
-            print(f'your guess needs to be {self.gs_state}')
+            print(f'\nYour guess needs to be {self.gs_state}')
             self.lives -=1
+            print(f"\nWrong! You now have {self.lives} lives.")
 
         elif self.guess < self.answer : 
             self.gs_state =  'higher'
-            print(f'your guess needs to be {self.gs_state}')
+            print(f'\nYour guess needs to be {self.gs_state}')
             self.lives -=1
+            print(f"\nWrong! You now have {self.lives} lives.")
 
         elif self.guess == self.answer : self.gs_state =  True
+
 
 
     def check_win(self):
@@ -63,10 +74,11 @@ class Riddler(Computer):
 class Guesser(Computer):
     def __init__(self):
         super().__init__()
-        print("You chose the Guesser Mode.")
+        
         self.low = None
         self.high = None 
         self.answer = None
+        
     
     def guet_boundaries(self):
         self.low = int(input('choose a range of guessing for the number , ex: for a number between 10 and 25 , low:10 and high:25\n lowest: '))
@@ -94,11 +106,13 @@ def are_still_playing():
     return temp == "yes"
 
 still_playing = True
+C = Computer()
 
 while still_playing:
-    mode = Computer.greet()
+    
+    C.greet()
 
-    match mode:
+    match C.mode:
         case "guesser":
             g = Guesser()
 
