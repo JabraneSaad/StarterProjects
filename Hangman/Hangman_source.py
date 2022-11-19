@@ -18,10 +18,8 @@ class Hangman:
     
         self.playing = True
     # get the guessed letter
-    def greet(self):
-        print(">>> Hello this is a Hangman game, I will generate a random word and you'll have 8 lives to find it out "
-              "by guessing its letters.")
     def getGuess(self):
+        print(self.spots)
         self.guess =(input("guess a letter:")).upper()
     
     # check the guessed letter if  in word
@@ -57,9 +55,8 @@ class Hangman:
             print('you won!')
             self.playing =  False
             
-    def display_state(self):
-        print(self.spots)
-
+        
 
 w = Word()
 g = Hangman(8,w.chosenWord) 
+

@@ -17,8 +17,8 @@ class Computer:
     def greet():
         mode = None
         while mode!= "Guesser" and mode != "Riddler":
-            mode = input('>>>\n Hello! This is a small game names GuessOrMakeMeGuess, chose the mode you want to play: <Riddler> if you want to guess a random number, <Guesser> if you want to make me guess a number! :').strip()
-        return mode
+            mode = input('>>>\n Hello! This is a small game named GuessOrMakeMeGuess, choose the mode you want to play: <Riddler> if you want to guess a random number, <Guesser> if you want to make me guess a number! :').strip()
+        return mode.lower()
         
 
 class Riddler(Computer):
@@ -60,7 +60,7 @@ class Guesser(Computer):
         self.answer = None
     
     def guet_boundaries(self):
-        self.low = int(input('choose a range of guessing for the number\n lowest: '))
+        self.low = int(input('choose a range of guessing for the number , ex: for a number between 10 and 25 , low:10 and high:25\n lowest: '))
         self.high = int(input('high: '))
         
     def guessNumber(self):
@@ -85,7 +85,7 @@ class Guesser(Computer):
 mode = Computer.greet()
 
 match mode:
-    case "Guesser":
+    case "guesser":
         g = Guesser()
         
         while g.playing:
@@ -95,7 +95,7 @@ match mode:
                 g.assert_guess()
                 g.check_win()
 
-    case "Riddler":
+    case "riddler":
         r = Riddler()
         
         while r.playing:
