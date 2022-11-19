@@ -1,9 +1,11 @@
 import random as rand
-# guess the computers number 
+
+#TODO : while loop to make sure guess is a number
+#TODO : while
 
 class Computer:
     
-    def __init__(self):
+    def __init__(self, lives = 10):
         
         self.playing = True
         self.low = None
@@ -13,10 +15,11 @@ class Computer:
         self.gs_state = None
         self.num_tries = 0
         self.guessing = True 
+        self.lives = lives
     
     def greet():
         mode = None
-        while mode!= "Guesser" and mode != "Riddler":
+        while mode != "guesser" and mode != "riddler":
             mode = input('>>>\n Hello! This is a small game named GuessOrMakeMeGuess, choose the mode you want to play: <Riddler> if you want to guess a random number, <Guesser> if you want to make me guess a number! :').strip()
         return mode.lower()
         
@@ -24,32 +27,38 @@ class Computer:
 class Riddler(Computer):
     def __init__(self):
         super().__init__()
-        print("You chose the Riddler Mode.")
-        
+
         self.low = rand.randint(0,20)
         self.high = rand.randint(self.low+1,50)
         self.answer = rand.randint(self.low,self.high)
+        #self.lives = lives
+        print(f"You chose the Riddler Mode, you have {self.lives}")
 
-        
     def get_guessNumber(self):
+        print(f"You now have {self.lives} lives.")
         self.guess = int(input(f"guess a numbfer between {self.low} and {self.high}: "))
         self.num_tries +=1
-    
+
     def assert_gess(self):
         if self.guess > self.answer : 
             self.gs_state =  'lower'
             print(f'your guess needs to be {self.gs_state}')
+            self.lives -=1
+
         elif self.guess < self.answer : 
             self.gs_state =  'higher'
             print(f'your guess needs to be {self.gs_state}')
+            self.lives -=1
 
         elif self.guess == self.answer : self.gs_state =  True
-        
-    
+
+
     def check_win(self):
         if self.gs_state == True :
             print(f'Haha you won after {self.num_tries}')
             self.playing = False
+
+
             
 class Guesser(Computer):
     def __init__(self):
@@ -80,29 +89,34 @@ class Guesser(Computer):
             self.playing = False
     
     
-        
-        
-mode = Computer.greet()
+def are_still_playing():
+    temp = (input("would you like to play again?: (yes/no)").lower()).strip()
+    return temp == "yes"
 
-match mode:
-    case "guesser":
-        g = Guesser()
+still_playing = True
+
+while still_playing:
+    mode = Computer.greet()
+
+    match mode:
+        case "guesser":
+            g = Guesser()
+
+            while g.playing:
+                g.guet_boundaries()
+                while g.guessing:
+                    g.guessNumber()
+                    g.assert_guess()
+                    g.check_win()
+
+        case "riddler":
+            r = Riddler()
+
+            while r.playing:
+                r.get_guessNumber()
+                r.assert_gess()
+                r.check_win()
+    still_playing = are_still_playing()   
         
-        while g.playing:
-            g.guet_boundaries()
-            while g.guessing:
-                g.guessNumber()
-                g.assert_guess()
-                g.check_win()
-
-    case "riddler":
-        r = Riddler()
-        
-        while r.playing:
-            r.get_guessNumber()
-            r.assert_gess()
-            r.check_win()
-
-  
-
+print("thank you! See you next time ")
 

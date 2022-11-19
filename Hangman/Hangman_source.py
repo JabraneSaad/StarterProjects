@@ -1,4 +1,5 @@
-import random as rand 
+import random as rand
+import numpy as np 
 import  csv 
 # TODO : Faire une liste de mots random a selectionner pour le 
 class Word:
@@ -15,11 +16,14 @@ class Hangman:
         self.spots = len(word)*['_']
         self.guess = None
         self.matching = None
-    
         self.playing = True
+    
+    def greet(self):
+        print(">>> Hello this is a Hangman game, I will generate a random word and you'll have 8 lives to find it out "
+              "by guessing its letters.")
     # get the guessed letter
     def getGuess(self):
-        print(self.spots)
+        print(f"   {np.matrix(self.spots)} ")
         self.guess =(input("guess a letter:")).upper()
     
     # check the guessed letter if  in word
@@ -46,17 +50,20 @@ class Hangman:
     # check if still alive and changes playing var to stop the loop
     def check_loss(self):
         if self.lives <= 0:
-            print("you are dead, terminate the game")
+            print("you are dead")
             print(self.word)
             self.playing = False
 
     def check_win(self):
         if '_' not in self.spots:
             print('you won!')
-            self.playing =  False
+            self.playing = False
             
-        
+def are_still_playing():
+    temp = (input("would you like to play again?: (yes/no)").lower()).strip()
+    return temp == "yes"
 
+still_playing = True
 w = Word()
 g = Hangman(8,w.chosenWord) 
 
